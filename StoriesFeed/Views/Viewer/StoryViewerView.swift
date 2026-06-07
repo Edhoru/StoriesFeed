@@ -2,6 +2,7 @@ import SwiftUI
 
 struct StoryViewerView: View {
     @Bindable var vm: StoryViewerViewModel
+    private let userSwipeThreshold: CGFloat = 70
 
     var body: some View {
         ZStack {
@@ -29,7 +30,26 @@ struct StoryViewerView: View {
                 .ignoresSafeArea()
         )
         .background(Color.black.ignoresSafeArea())
+        .simultaneousGesture(userSwipeGesture)
         .onAppear { vm.start() }
         .onDisappear { vm.stop() }
+    }
+
+    private var userSwipeGesture: some Gesture {
+        DragGesture(minimumDistance: 30)
+            .onEnded { value in
+                guard isHorizontalUserSwipe(value) else { return }
+
+                if value.translation.width < 0 {
+                    vm.goToNextUser()
+                } else {
+                    vm.goToPreviousUser()
+                }
+            }
+    }
+
+    private func isHorizontalUserSwipe(_ value: DragGesture.Value) -> Bool {
+        abs(value.translation.width) > userSwipeThreshold
+            && abs(value.translation.width) > abs(value.translation.height)
     }
 }

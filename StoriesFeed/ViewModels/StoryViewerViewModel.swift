@@ -42,6 +42,25 @@ final class StoryViewerViewModel {
         startProgress()
     }
 
+    func goToNextUser() {
+        progressTask?.cancel()
+        advanceToNextUser()
+    }
+
+    func goToPreviousUser() {
+        progressTask?.cancel()
+        guard currentUserIndex > 0 else {
+            progress = 0
+            startProgress()
+            return
+        }
+
+        currentUserIndex -= 1
+        currentStoryIndex = 0
+        progress = 0
+        startProgress()
+    }
+
     func pause() {
         guard !isPaused else { return }
         isPaused = true
