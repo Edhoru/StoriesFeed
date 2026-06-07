@@ -82,7 +82,7 @@ struct StoryViewerView: View {
                 } else if isVerticalDismissSwipe(value), value.translation.height > dismissThreshold {
                     withAnimation(.easeIn(duration: 0.2)) { dragOffset = 1000 }
                     vm.onDismiss?()
-                } else if dragOffset != 0 {
+                } else {
                     withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
                         dragOffset = 0
                     }

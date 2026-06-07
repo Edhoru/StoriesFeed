@@ -14,7 +14,14 @@ private struct TapAndHoldModifier: ViewModifier {
         content
             .simultaneousGesture(
                 DragGesture(minimumDistance: 0)
-                    .onChanged { _ in
+                    .onChanged { value in
+                        // If the finger is moving it's a swipe — cancel the hold timer.
+                        if abs(value.translation.width) > tapMovementThreshold ||
+                           abs(value.translation.height) > tapMovementThreshold {
+                            holdTask?.cancel()
+                            holdTask = nil
+                            return
+                        }
                         guard holdTask == nil else { return }
                         holdTask = Task { @MainActor in
                             try? await Task.sleep(for: .seconds(holdThreshold))
