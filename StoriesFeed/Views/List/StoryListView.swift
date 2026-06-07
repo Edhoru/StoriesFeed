@@ -2,7 +2,7 @@ import SwiftUI
 
 struct StoryListView: View {
     @State private var vm = StoryListViewModel()
-    @State private var selectedUser: StoryUser?
+    @State private var viewerVM: StoryViewerViewModel?
 
     var body: some View {
         NavigationStack {
@@ -13,8 +13,8 @@ struct StoryListView: View {
             .navigationTitle("Feed")
             .navigationBarTitleDisplayMode(.inline)
         }
-        .fullScreenCover(item: $selectedUser) { user in
-            StoryViewerView(user: user, onDismiss: { selectedUser = nil })
+        .fullScreenCover(item: $viewerVM) { viewer in
+            StoryViewerView(vm: viewer)
         }
         .task { await vm.loadInitialIfNeeded() }
     }
@@ -22,8 +22,8 @@ struct StoryListView: View {
     private var storiesRow: some View {
         ScrollView(.horizontal) {
             LazyHStack(spacing: 14) {
-                ForEach(vm.users) { user in
-                    Button { selectedUser = user } label: {
+                ForEach(Array(vm.users.enumerated()), id: \.element.id) { index, user in
+                    Button { openViewer(at: index) } label: {
                         StoryRingView(user: user, size: 64)
                     }
                     .buttonStyle(.plain)
@@ -38,5 +38,18 @@ struct StoryListView: View {
             .padding(.vertical, 12)
         }
         .scrollIndicators(.hidden)
+    }
+
+    private func openViewer(at index: Int) {
+        let viewer = StoryViewerViewModel(users: vm.users, startUserIndex: index)
+        viewer.onDismiss = { viewerVM = nil }
+        viewer.onNeedMoreUsers = { [weak vm] in
+            guard let vm else { return [] }
+            let before = vm.users.count
+            await vm.forceLoadNextPage()
+            guard vm.users.count > before else { return [] }
+            return Array(vm.users[before...])
+        }
+        viewerVM = viewer
     }
 }

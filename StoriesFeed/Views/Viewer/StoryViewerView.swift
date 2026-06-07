@@ -1,25 +1,28 @@
 import SwiftUI
 
 struct StoryViewerView: View {
-    let user: StoryUser
-    let onDismiss: () -> Void
+    @Bindable var vm: StoryViewerViewModel
 
     var body: some View {
         ZStack {
-            Color.black.ignoresSafeArea()
-            Text(user.username)
-                .foregroundStyle(.white)
-                .font(.title.bold())
-            VStack {
-                HStack {
-                    Spacer()
-                    Button("Close", systemImage: "xmark", action: onDismiss)
-                        .labelStyle(.iconOnly)
-                        .foregroundStyle(.white)
-                        .padding()
-                }
+            VStack(spacing: 0) {
+                StoryTopBarView(
+                    user: vm.currentUser,
+                    totalStories: vm.currentUser.stories.count,
+                    currentStoryIndex: vm.currentStoryIndex,
+                    progress: vm.progress,
+                    onDismiss: { vm.onDismiss?() }
+                )
                 Spacer()
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(
+            StoryImageLayerView(story: vm.currentStory)
+                .ignoresSafeArea()
+        )
+        .background(Color.black.ignoresSafeArea())
+        .onAppear { vm.start() }
+        .onDisappear { vm.stop() }
     }
 }
