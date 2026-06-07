@@ -15,9 +15,11 @@ final class StoryViewerViewModel {
 
     private var progressTask: Task<Void, Never>?
     private let storyDuration: TimeInterval = 5.0
+    private let stateManager = StoryStateManager.shared
 
     var currentUser: StoryUser { users[currentUserIndex] }
     var currentStory: Story { currentUser.stories[currentStoryIndex] }
+    var isCurrentLiked: Bool { stateManager.isLiked(currentStory) }
 
     init(users: [StoryUser], startUserIndex: Int) {
         self.users = users
@@ -29,6 +31,8 @@ final class StoryViewerViewModel {
     func stop() { progressTask?.cancel() }
 
     func tapForward() { advanceStory() }
+
+    func toggleLike() { stateManager.toggleLike(currentStory) }
 
     func tapBackward() {
         progressTask?.cancel()

@@ -4,6 +4,8 @@ struct StoryViewerView: View {
     @Bindable var vm: StoryViewerViewModel
     @State private var dragOffset: CGFloat = 0
     @State private var isHolding = false
+    @State private var isLikeAnimating = false
+    @State private var likeAnimationTask: Task<Void, Never>?
 
     private let dismissThreshold: CGFloat = 100
     private let userSwipeThreshold: CGFloat = 70
@@ -30,7 +32,12 @@ struct StoryViewerView: View {
                         vm.resume()
                     }
                 )
-                Spacer()
+                StoryBottomBarView(
+                    story: vm.currentStory,
+                    isLiked: vm.isCurrentLiked,
+                    isAnimating: isLikeAnimating,
+                    onLike: handleLikeTap
+                )
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
@@ -43,9 +50,11 @@ struct StoryViewerView: View {
         .background(Color.black.ignoresSafeArea())
         .offset(y: dragOffset)
         .simultaneousGesture(viewerDragGesture)
+        .sensoryFeedback(.impact(weight: .medium), trigger: vm.isCurrentLiked)
         .onAppear { vm.start() }
         .onDisappear {
             isHolding = false
+            likeAnimationTask?.cancel()
             vm.stop()
         }
     }
@@ -91,5 +100,16 @@ struct StoryViewerView: View {
 
     private var dragScale: CGFloat {
         max(0.88, 1.0 - dragOffset / 1400)
+    }
+
+    private func handleLikeTap() {
+        vm.toggleLike()
+        likeAnimationTask?.cancel()
+        isLikeAnimating = true
+        likeAnimationTask = Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(300))
+            guard !Task.isCancelled else { return }
+            isLikeAnimating = false
+        }
     }
 }
