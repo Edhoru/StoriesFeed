@@ -5,6 +5,7 @@ private struct TapAndHoldModifier: ViewModifier {
     let onHoldStart: () -> Void
     let onHoldEnd: () -> Void
     private let holdThreshold: TimeInterval = 0.15
+    private let tapMovementThreshold: CGFloat = 12
 
     @State private var holdTask: Task<Void, Never>?
     @State private var isHolding = false
@@ -22,12 +23,14 @@ private struct TapAndHoldModifier: ViewModifier {
                             onHoldStart()
                         }
                     }
-                    .onEnded { _ in
+                    .onEnded { value in
                         if isHolding {
                             onHoldEnd()
-                        } else {
+                        } else if isTap(value) {
                             holdTask?.cancel()
                             onTap()
+                        } else {
+                            holdTask?.cancel()
                         }
                         holdTask = nil
                         isHolding = false
@@ -38,6 +41,11 @@ private struct TapAndHoldModifier: ViewModifier {
                 holdTask = nil
                 isHolding = false
             }
+    }
+
+    private func isTap(_ value: DragGesture.Value) -> Bool {
+        abs(value.translation.width) <= tapMovementThreshold
+            && abs(value.translation.height) <= tapMovementThreshold
     }
 }
 

@@ -23,6 +23,7 @@ struct StoryViewerView: View {
                 )
                 Spacer()
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(
@@ -32,7 +33,7 @@ struct StoryViewerView: View {
         )
         .background(Color.black.ignoresSafeArea())
         .offset(y: dragOffset)
-        .gesture(dismissDragGesture)
+        .simultaneousGesture(dismissDragGesture)
         .onAppear { vm.start() }
         .onDisappear { vm.stop() }
     }
