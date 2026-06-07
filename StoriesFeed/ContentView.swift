@@ -4,7 +4,7 @@ struct ContentView: View {
     @State private var users: [StoryUser] = []
 
     var body: some View {
-        Text("Loaded \(users.count) users")
+        StoryListView(users: users)
             .task {
                 guard
                     let url = Bundle.main.url(forResource: "stories", withExtension: "json"),
