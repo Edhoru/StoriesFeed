@@ -3,6 +3,7 @@ import SwiftUI
 struct StoryListView: View {
     @State private var vm = StoryListViewModel()
     @State private var viewerVM: StoryViewerViewModel?
+    private let stateManager = StoryStateManager.shared
 
     var body: some View {
         NavigationStack {
@@ -24,7 +25,11 @@ struct StoryListView: View {
             LazyHStack(spacing: 14) {
                 ForEach(Array(vm.users.enumerated()), id: \.element.id) { index, user in
                     Button { openViewer(at: index) } label: {
-                        StoryRingView(user: user, size: 64)
+                        StoryRingView(
+                            user: user,
+                            seenStories: user.stories.map { stateManager.isSeen($0) },
+                            size: 64
+                        )
                     }
                     .buttonStyle(.plain)
                     .task { await vm.loadMoreIfNeeded(currentUser: user) }

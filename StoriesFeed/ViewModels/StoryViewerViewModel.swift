@@ -20,6 +20,7 @@ final class StoryViewerViewModel {
     var currentUser: StoryUser { users[currentUserIndex] }
     var currentStory: Story { currentUser.stories[currentStoryIndex] }
     var isCurrentLiked: Bool { stateManager.isLiked(currentStory) }
+    var currentStorySeenDate: Date? { stateManager.seenDate(for: currentStory) }
 
     init(users: [StoryUser], startUserIndex: Int) {
         self.users = users
@@ -102,6 +103,7 @@ final class StoryViewerViewModel {
 
     private func advanceStory() {
         progressTask?.cancel()
+        stateManager.markSeen(currentStory)
         if currentStoryIndex < currentUser.stories.count - 1 {
             currentStoryIndex += 1
             progress = 0

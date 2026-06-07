@@ -36,7 +36,10 @@ struct StoryViewerView: View {
                     story: vm.currentStory,
                     isLiked: vm.isCurrentLiked,
                     isAnimating: isLikeAnimating,
-                    onLike: handleLikeTap
+                    seenDate: vm.currentStorySeenDate,
+                    onLike: handleLikeTap,
+                    onPause: { vm.pause() },
+                    onResume: { vm.resume() }
                 )
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
