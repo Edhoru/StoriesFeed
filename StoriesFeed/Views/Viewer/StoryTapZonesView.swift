@@ -9,16 +9,19 @@ struct StoryTapZonesView: View {
     var body: some View {
         HStack(spacing: 0) {
             Color.clear
-                .containerRelativeFrame(.horizontal) { size, _ in size * 0.33 }
+                .contentShape(Rectangle())
                 .tapAndHold(onTap: onTapBack,
                             onHoldStart: onHoldStart,
                             onHoldEnd: onHoldEnd)
+                .containerRelativeFrame(.horizontal, count: 3, span: 1, spacing: 0)
 
             Color.clear
-                .containerRelativeFrame(.horizontal) { size, _ in size * 0.67 }
+                .contentShape(Rectangle())
                 .tapAndHold(onTap: onTapForward,
                             onHoldStart: onHoldStart,
                             onHoldEnd: onHoldEnd)
+                .frame(maxWidth: .infinity)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }

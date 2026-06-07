@@ -4,28 +4,40 @@ private struct TapAndHoldModifier: ViewModifier {
     let onTap: () -> Void
     let onHoldStart: () -> Void
     let onHoldEnd: () -> Void
+    private let holdThreshold: TimeInterval = 0.15
 
     @State private var holdTask: Task<Void, Never>?
+    @State private var isHolding = false
 
     func body(content: Content) -> some View {
-        content.gesture(
-            DragGesture(minimumDistance: 0)
-                .onChanged { _ in
-                    guard holdTask == nil else { return }
-                    holdTask = Task { @MainActor in
-                        try? await Task.sleep(for: .milliseconds(150))
-                        guard !Task.isCancelled else { return }
-                        onHoldStart()
+        content
+            .simultaneousGesture(
+                DragGesture(minimumDistance: 0)
+                    .onChanged { _ in
+                        guard holdTask == nil else { return }
+                        holdTask = Task { @MainActor in
+                            try? await Task.sleep(for: .seconds(holdThreshold))
+                            guard !Task.isCancelled else { return }
+                            isHolding = true
+                            onHoldStart()
+                        }
                     }
-                }
-                .onEnded { _ in
-                    if let task = holdTask {
-                        task.cancel()
+                    .onEnded { _ in
+                        if isHolding {
+                            onHoldEnd()
+                        } else {
+                            holdTask?.cancel()
+                            onTap()
+                        }
                         holdTask = nil
-                        if !task.isCancelled { onHoldEnd() } else { onTap() }
+                        isHolding = false
                     }
-                }
-        )
+            )
+            .onDisappear {
+                holdTask?.cancel()
+                holdTask = nil
+                isHolding = false
+            }
     }
 }
 
