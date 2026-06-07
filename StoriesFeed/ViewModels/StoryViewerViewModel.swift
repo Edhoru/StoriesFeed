@@ -7,6 +7,7 @@ final class StoryViewerViewModel {
     private(set) var users: [StoryUser]
     private(set) var currentUserIndex: Int
     private(set) var currentStoryIndex: Int = 0
+    private(set) var isPaused = false
     private(set) var progress: CGFloat = 0
 
     var onDismiss: (() -> Void)?
@@ -26,6 +27,32 @@ final class StoryViewerViewModel {
     func start() { startProgress() }
 
     func stop() { progressTask?.cancel() }
+
+    func tapForward() { advanceStory() }
+
+    func tapBackward() {
+        progressTask?.cancel()
+        if currentStoryIndex > 0 {
+            currentStoryIndex -= 1
+        } else if currentUserIndex > 0 {
+            currentUserIndex -= 1
+            currentStoryIndex = currentUser.stories.count - 1
+        }
+        progress = 0
+        startProgress()
+    }
+
+    func pause() {
+        guard !isPaused else { return }
+        isPaused = true
+        progressTask?.cancel()
+    }
+
+    func resume() {
+        guard isPaused else { return }
+        isPaused = false
+        startProgress()
+    }
 
     // MARK: - Private
 
