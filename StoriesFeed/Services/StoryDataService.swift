@@ -14,7 +14,6 @@ final class StoryDataService: Sendable {
         allUsers = users
     }
 
-    @concurrent
     func fetchUsers(page: Int) async -> [StoryUser] {
         guard !allUsers.isEmpty else { return [] }
         let startIndex = (page * pageSize) % allUsers.count
