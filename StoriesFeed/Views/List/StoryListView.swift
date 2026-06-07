@@ -20,9 +20,13 @@ struct StoryListView: View {
             LazyHStack(spacing: 14) {
                 ForEach(users) { user in
                     VStack(spacing: 6) {
-                        Circle()
-                            .fill(Color.gray.opacity(0.3))
-                            .frame(width: 64, height: 64)
+                        CachedAsyncImage(url: user.avatarURL) { image in
+                            image.resizable().scaledToFill()
+                        } placeholder: {
+                            Circle().fill(Color.gray.opacity(0.3))
+                        }
+                        .frame(width: 64, height: 64)
+                        .clipShape(Circle())
                         Text(user.username)
                             .font(.caption2)
                             .lineLimit(1)
