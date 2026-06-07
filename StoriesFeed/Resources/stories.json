@@ -1,0 +1,95 @@
+[
+  {
+    "id": "user_01", "username": "alex_chen", "avatarSeed": 101,
+    "stories": [
+      { "id": "s01_1", "imageSeed": 1011, "caption": "Morning vibes ☀️" },
+      { "id": "s01_2", "imageSeed": 1012, "caption": "Coffee time ☕" },
+      { "id": "s01_3", "imageSeed": 1013, "caption": "City walk 🌆" }
+    ]
+  },
+  {
+    "id": "user_02", "username": "maya_patel", "avatarSeed": 102,
+    "stories": [
+      { "id": "s02_1", "imageSeed": 1021, "caption": "Sunset colors 🌅" },
+      { "id": "s02_2", "imageSeed": 1022, "caption": "Beach day 🏖️" }
+    ]
+  },
+  {
+    "id": "user_03", "username": "lucas_silva", "avatarSeed": 103,
+    "stories": [
+      { "id": "s03_1", "imageSeed": 1031, "caption": "Mountains 🏔️" },
+      { "id": "s03_2", "imageSeed": 1032, "caption": "Hiking trail 🥾" },
+      { "id": "s03_3", "imageSeed": 1033, "caption": "Summit! 🎉" },
+      { "id": "s03_4", "imageSeed": 1034, "caption": "Golden hour 🌄" }
+    ]
+  },
+  {
+    "id": "user_04", "username": "sophie_martin", "avatarSeed": 104,
+    "stories": [
+      { "id": "s04_1", "imageSeed": 1041, "caption": "New recipe 🍝" },
+      { "id": "s04_2", "imageSeed": 1042, "caption": "Farmers market 🥬" }
+    ]
+  },
+  {
+    "id": "user_05", "username": "kai_nakamura", "avatarSeed": 105,
+    "stories": [
+      { "id": "s05_1", "imageSeed": 1051, "caption": "Studio session 🎵" },
+      { "id": "s05_2", "imageSeed": 1052, "caption": "New track dropping 🎧" },
+      { "id": "s05_3", "imageSeed": 1053, "caption": "Stage life 🎤" }
+    ]
+  },
+  {
+    "id": "user_06", "username": "emma_johnson", "avatarSeed": 106,
+    "stories": [
+      { "id": "s06_1", "imageSeed": 1061, "caption": "Gallery opening 🎨" },
+      { "id": "s06_2", "imageSeed": 1062, "caption": "New canvas 🖌️" }
+    ]
+  },
+  {
+    "id": "user_07", "username": "diego_reyes", "avatarSeed": 107,
+    "stories": [
+      { "id": "s07_1", "imageSeed": 1071, "caption": "Surf's up 🏄" },
+      { "id": "s07_2", "imageSeed": 1072, "caption": "Ocean views 🌊" },
+      { "id": "s07_3", "imageSeed": 1073, "caption": "Board wax 🤙" }
+    ]
+  },
+  {
+    "id": "user_08", "username": "lena_vogel", "avatarSeed": 108,
+    "stories": [
+      { "id": "s08_1", "imageSeed": 1081, "caption": "Berlin nights 🌃" },
+      { "id": "s08_2", "imageSeed": 1082, "caption": "Vintage find 👗" },
+      { "id": "s08_3", "imageSeed": 1083, "caption": "Rooftop views 🏙️" }
+    ]
+  },
+  {
+    "id": "user_09", "username": "james_okafor", "avatarSeed": 109,
+    "stories": [
+      { "id": "s09_1", "imageSeed": 1091, "caption": "Game day 🏀" },
+      { "id": "s09_2", "imageSeed": 1092, "caption": "Team practice 💪" }
+    ]
+  },
+  {
+    "id": "user_10", "username": "ines_dupont", "avatarSeed": 110,
+    "stories": [
+      { "id": "s10_1", "imageSeed": 1101, "caption": "Paris mornings 🥐" },
+      { "id": "s10_2", "imageSeed": 1102, "caption": "Bookshop finds 📚" },
+      { "id": "s10_3", "imageSeed": 1103, "caption": "Seine river walk 🌉" }
+    ]
+  },
+  {
+    "id": "user_11", "username": "yuki_tanaka", "avatarSeed": 111,
+    "stories": [
+      { "id": "s11_1", "imageSeed": 1111, "caption": "Ramen time 🍜" },
+      { "id": "s11_2", "imageSeed": 1112, "caption": "Cherry blossoms 🌸" },
+      { "id": "s11_3", "imageSeed": 1113, "caption": "Night market 🏮" },
+      { "id": "s11_4", "imageSeed": 1114, "caption": "Matcha break 🍵" }
+    ]
+  },
+  {
+    "id": "user_12", "username": "sara_ali", "avatarSeed": 112,
+    "stories": [
+      { "id": "s12_1", "imageSeed": 1121, "caption": "Desert dunes 🏜️" },
+      { "id": "s12_2", "imageSeed": 1122, "caption": "Stargazing 🌟" }
+    ]
+  }
+]

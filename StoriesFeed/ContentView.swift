@@ -1,24 +1,17 @@
-//
-//  ContentView.swift
-//  StoriesFeed
-//
-//  Created by Alberto on 07/06/26.
-//
-
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
-    }
-}
+    @State private var users: [StoryUser] = []
 
-#Preview {
-    ContentView()
+    var body: some View {
+        Text("Loaded \(users.count) users")
+            .task {
+                guard
+                    let url = Bundle.main.url(forResource: "stories", withExtension: "json"),
+                    let data = try? Data(contentsOf: url),
+                    let decoded = try? JSONDecoder().decode([StoryUser].self, from: data)
+                else { return }
+                users = decoded
+            }
+    }
 }
