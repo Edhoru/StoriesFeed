@@ -9,7 +9,8 @@ struct StoryListView: View {
         NavigationStack {
             ScrollView {
                 storiesRow
-                Divider()
+                Divider().padding(.vertical, 8)
+                FeedPlaceholderView()
             }
             .navigationTitle("Feed")
             .navigationBarTitleDisplayMode(.inline)
