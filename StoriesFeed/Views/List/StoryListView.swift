@@ -8,7 +8,6 @@ struct StoryListView: View {
         NavigationStack {
             ScrollView {
                 storiesRow
-                    .padding(.vertical, 12)
                 Divider()
             }
             .navigationTitle("Feed")
@@ -30,6 +29,7 @@ struct StoryListView: View {
                 }
             }
             .padding(.horizontal, 16)
+            .padding(.vertical, 12)
         }
         .scrollIndicators(.hidden)
     }
