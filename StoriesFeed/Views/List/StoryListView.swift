@@ -2,6 +2,7 @@ import SwiftUI
 
 struct StoryListView: View {
     let users: [StoryUser]
+    @State private var selectedUser: StoryUser?
 
     var body: some View {
         NavigationStack {
@@ -13,25 +14,19 @@ struct StoryListView: View {
             .navigationTitle("Feed")
             .navigationBarTitleDisplayMode(.inline)
         }
+        .fullScreenCover(item: $selectedUser) { user in
+            StoryViewerView(user: user, onDismiss: { selectedUser = nil })
+        }
     }
 
     private var storiesRow: some View {
         ScrollView(.horizontal) {
             LazyHStack(spacing: 14) {
                 ForEach(users) { user in
-                    VStack(spacing: 6) {
-                        CachedAsyncImage(url: user.avatarURL) { image in
-                            image.resizable().scaledToFill()
-                        } placeholder: {
-                            Circle().fill(Color.gray.opacity(0.3))
-                        }
-                        .frame(width: 64, height: 64)
-                        .clipShape(Circle())
-                        Text(user.username)
-                            .font(.caption2)
-                            .lineLimit(1)
+                    Button { selectedUser = user } label: {
+                        StoryRingView(user: user, size: 64)
                     }
-                    .frame(width: 80)
+                    .buttonStyle(.plain)
                 }
             }
             .padding(.horizontal, 16)
